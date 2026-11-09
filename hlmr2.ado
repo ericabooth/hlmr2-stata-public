@@ -1,9 +1,10 @@
-*! version 0.1.0  06jul2026  Eric A. Booth, Sr Researcher, Texas 2036
+*! version 0.1.1  09nov2026  Eric A. Booth, Sr Researcher, Texas 2036
 *! hlmr2 : Nakagawa marginal and conditional R-squared after -mixed-
 *! Reference: Nakagawa & Schielzeth (2013), Methods in Ecology and
 *!            Evolution 4(2): 133-142.
-* version 16.0: needs -estat sd- after -mixed- and modern r(table)
-* column stripes; both are available from Stata 15/16 onward.
+* version 16.0: needs -estat sd- after -mixed-.  Reads r(b), which
+* -estat sd- returns in Stata 16 and later (r(table) is 17+ only).
+* 0.1.1  09nov2026  read r(b) instead of r(table) so hlmr2 runs on Stata 16
 
 program define hlmr2, rclass
     version 16.0
@@ -101,7 +102,8 @@ version 16.0
 mata:
 mata set matastrict on
 
-// Parse the current r(table) (as left by -estat sd- after -mixed-),
+// Parse the current r(b) (as left by -estat sd- after -mixed-; Stata 16
+// returns only r(b) and r(V), so r(table) is not used),
 // combine with the fixed-effects variance, and store the Nakagawa
 // R-squared pieces in the named Stata scalars.  Accepts both sd(...)
 // and var(...) parameter labels.  Also sets the locals nslopes (count
@@ -118,10 +120,10 @@ void _hlmr2_calc(real scalar var_f, string scalar depvar,
     real colvector resid
     string scalar eq, param, inner
 
-    tbl    = st_matrix("r(table)")
-    stripe = st_matrixcolstripe("r(table)")
+    tbl    = st_matrix("r(b)")
+    stripe = st_matrixcolstripe("r(b)")
     if (rows(tbl) == 0 | cols(tbl) == 0) {
-        errprintf("r(table) from estat sd not found\n")
+        errprintf("estat sd results r(b) not found\n")
         _error(498)
     }
 
@@ -158,7 +160,7 @@ void _hlmr2_calc(real scalar var_f, string scalar depvar,
 
     nresid = rows(resid)
     if (nresid == 0) {
-        errprintf("no residual variance found in the estat sd table\n")
+        errprintf("no residual variance found in the estat sd results\n")
         _error(498)
     }
     var_e = mean(resid)                   // one value in the usual case

@@ -68,13 +68,21 @@ display "Marginal R2 = " r(r2_m) "  Conditional R2 = " r(r2_c)
 | `r(N)` | observations in the estimation sample |
 | `r(depvar)` | dependent variable name (macro) |
 
-## Limitations (v0.1.0)
+## Limitations (v0.1.1)
 
 - Linear `mixed` models only; `melogit`, `mepoisson`, and other
   generalized linear mixed models are not supported.
 - For random-slope models, `hlmr2` sums the variance components and
   ignores their covariances — an approximation of the exact formula
   (Johnson 2014). A note is printed when random slopes are detected.
+
+## Changelog
+
+- 0.1.1 (2026-11-09): read the `estat sd` estimates from `r(b)` instead
+  of `r(table)`. Stata 16 returns only `r(b)` and `r(V)` there, so
+  0.1.0 failed on Stata 16 with error 498. Results are unchanged on
+  Stata 17 and later.
+- 0.1.0 (2026-07-06): first release.
 
 ## References
 

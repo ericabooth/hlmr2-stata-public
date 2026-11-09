@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 0.1.0  2026-07-06}{...}
+{* *! version 0.1.1  2026-11-09}{...}
 {viewerjumpto "Syntax" "hlmr2##syntax"}{...}
 {viewerjumpto "Description" "hlmr2##description"}{...}
 {viewerjumpto "Options" "hlmr2##options"}{...}
@@ -51,7 +51,9 @@ of the random-effect variance components, and the residual variance.
 The variance components are read from {cmd:estat sd}, and {cmd:hlmr2}
 accepts either the {cmd:sd(...)} or the {cmd:var(...)} parameter labels
 that different Stata versions produce, so the same do-file works across
-versions.  Models with one or more nested random-effects levels are
+versions.  It reads the estimates from {cmd:r(b)}, which {cmd:estat sd}
+returns in Stata 16 and later (version 0.1.0 read {cmd:r(table)}, which
+Stata 16 does not return, and so failed there with error 498).  Models with one or more nested random-effects levels are
 supported (for example, students within schools within districts).
 
 {pstd}
@@ -137,7 +139,7 @@ combined correctly.
 sums the random-effect variance components and ignores their covariances.
 This is an approximation: the exact Nakagawa formula for random-slope
 models weights the components by the covariate values (Johnson 2014).
-{cmd:hlmr2} prints a note when it detects random slopes.  Version 0.1.0
+{cmd:hlmr2} prints a note when it detects random slopes.  It
 does not implement the Johnson (2014) correction.
 
 {pstd}

@@ -1,5 +1,5 @@
 * ==========================================================================
-* test_hlmr2.do -- test battery for hlmr2 (v0.1.0)
+* test_hlmr2.do -- test battery for hlmr2 (v0.1.1)
 * Run in batch from a scratch directory:  stata-mp -b do test_hlmr2.do
 * Judge by the log: zero r(NNN); no "assertion is false".
 * ==========================================================================
