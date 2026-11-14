@@ -52,8 +52,7 @@ The variance components are read from {cmd:estat sd}, and {cmd:hlmr2}
 accepts either the {cmd:sd(...)} or the {cmd:var(...)} parameter labels
 that different Stata versions produce, so the same do-file works across
 versions.  It reads the estimates from {cmd:r(b)}, which {cmd:estat sd}
-returns in Stata 16 and later (version 0.1.0 read {cmd:r(table)}, which
-Stata 16 does not return, and so failed there with error 498).  Models with one or more nested random-effects levels are
+returns in Stata 16 and later.  Models with one or more nested random-effects levels are
 supported (for example, students within schools within districts).
 
 {pstd}
